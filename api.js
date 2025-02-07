@@ -28,25 +28,6 @@ app.get("/students", (req, res) => {
 });
 
 app.post("/createStudent", function (req, res) {
-  // const filePath = "data.xlsx";
-  // const workbook = XLSX.readFile(filePath);
-
-  // const sheetName = workbook.SheetNames[0];
-  // const sheet = workbook.Sheets[sheetName];
-
-  // let data = XLSX.utils.sheet_to_json(sheet);
-  // // console.log(req.body);
-  // data.push(req.body);
-
-  // const updatedSheet = XLSX.utils.json_to_sheet(data);
-
-  // workbook.Sheets[sheetName] = updatedSheet;
-
-  // XLSX.writeFile(workbook, filePath);
-
-  // console.log("Record added successfully!");
-
-  // res.send("OK");
   const filePath = "data.xlsx";
   const workbook = XLSX.readFile(filePath);
 
@@ -72,4 +53,4 @@ app.post("/createStudent", function (req, res) {
   res.send("OK");
 });
 
-app.listen(3000);
+app.listen(PORT);
