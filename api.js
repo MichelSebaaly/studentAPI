@@ -4,6 +4,8 @@ const cors = require("cors");
 const XLSX = require("xlsx");
 const fs = require("fs");
 
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 app.use(cors());
 
