@@ -17,13 +17,10 @@ app.get("/students", (req, res) => {
   const fileBuffer = fs.readFileSync("data.xlsx");
   const workbook = XLSX.read(fileBuffer, { type: "buffer" });
 
-  // Get the first sheet name
   const sheetName = workbook.SheetNames[0];
 
-  // Get the sheet data
   const sheet = workbook.Sheets[sheetName];
 
-  // Convert the sheet to JSON
   const data = XLSX.utils.sheet_to_json(sheet);
 
   console.log(data);
@@ -31,6 +28,25 @@ app.get("/students", (req, res) => {
 });
 
 app.post("/createStudent", function (req, res) {
+  // const filePath = "data.xlsx";
+  // const workbook = XLSX.readFile(filePath);
+
+  // const sheetName = workbook.SheetNames[0];
+  // const sheet = workbook.Sheets[sheetName];
+
+  // let data = XLSX.utils.sheet_to_json(sheet);
+  // // console.log(req.body);
+  // data.push(req.body);
+
+  // const updatedSheet = XLSX.utils.json_to_sheet(data);
+
+  // workbook.Sheets[sheetName] = updatedSheet;
+
+  // XLSX.writeFile(workbook, filePath);
+
+  // console.log("Record added successfully!");
+
+  // res.send("OK");
   const filePath = "data.xlsx";
   const workbook = XLSX.readFile(filePath);
 
@@ -38,17 +54,21 @@ app.post("/createStudent", function (req, res) {
   const sheet = workbook.Sheets[sheetName];
 
   let data = XLSX.utils.sheet_to_json(sheet);
-  console.log(req.body);
+  console.log("Before Update:", data);
+
   data.push(req.body);
 
+  console.log("After Update:", data);
+
   const updatedSheet = XLSX.utils.json_to_sheet(data);
+  const newWorkbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(newWorkbook, updatedSheet, sheetName);
 
-  workbook.Sheets[sheetName] = updatedSheet;
-
-  XLSX.writeFile(workbook, filePath);
+  // Write file using fs to ensure proper saving
+  const buffer = XLSX.write(newWorkbook, { bookType: "xlsx", type: "buffer" });
+  fs.writeFileSync(filePath, buffer);
 
   console.log("Record added successfully!");
-
   res.send("OK");
 });
 
